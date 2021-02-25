@@ -12,7 +12,8 @@ yarn install
 
 ### Compiles and hot-reloads for development
 ```
-yarn serve
+# vite启动
+npm run dev
 ```
 
 ### Compiles and minifies for production
