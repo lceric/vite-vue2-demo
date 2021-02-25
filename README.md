@@ -1,4 +1,9 @@
-# my-vue2-demo
+# Vite-Vue2-demo
+开发环境vite，webpack打包。
+
+- scss变量注入
+- alias
+- html模板语法
 
 ## Project setup
 ```
