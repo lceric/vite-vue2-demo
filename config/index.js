@@ -10,11 +10,10 @@ exports.genHtmlOptions = function(env) {
     title: 'Vite Vue2 Demo',
   };
   if (env == 'vite') {
+    process.env.TOOL_NAME = 'vite';
     options.process = {
-      env: {
-        TOOL_NAME: 'vite',
-        NODE_ENV: process.env.NODE_ENV,
-      },
+      // 注入env
+      env: process.env,
     };
   }
   return options;

@@ -3,6 +3,7 @@
 
 - scss变量注入
 - alias
+- resolve externals
 - html模板语法
 
 ## Project setup

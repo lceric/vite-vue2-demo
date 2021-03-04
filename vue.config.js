@@ -15,6 +15,13 @@ module.exports = {
     },
   },
   chainWebpack: config => {
+    config.externals({
+      axios: 'axios',
+      vue: 'Vue',
+      vuex: 'Vuex',
+      'vue-router': 'VueRouter',
+      'element-ui': 'ELEMENT',
+    });
     config.plugin('html').tap(args => {
       const htmlOptions = genHtmlOptions();
       const htmlStr = readFileSync(indexPath).toString();
