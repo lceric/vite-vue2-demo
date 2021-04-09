@@ -18,3 +18,27 @@ exports.genHtmlOptions = function(env) {
   }
   return options;
 };
+
+/**
+ * 获取vite的env配置
+ * @returns webpack DefinePlugin Object
+ */
+exports.getViteEnvVarDefine = function() {
+  // 打包处理.env
+  const dotenv = require('dotenv');
+  const dotenvExpand = require('dotenv-expand');
+
+  const envResult = dotenv.config();
+  const { parsed: envParsed } = dotenvExpand(envResult);
+
+  console.log(envParsed);
+
+  const viteEnvDefine = {};
+  Object.keys(envParsed).reduce((pre, cur) => {
+    pre[`process.env.${cur}`] = JSON.stringify(envParsed[cur]);
+    return pre;
+  }, viteEnvDefine);
+
+  console.log(viteEnvDefine);
+  return viteEnvDefine;
+};

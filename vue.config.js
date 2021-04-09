@@ -1,10 +1,22 @@
 const { readFileSync, writeFileSync, existsSync, mkdirSync } = require('fs');
 const path = require('path');
-const { genScssOptions, genHtmlOptions } = require('./config');
+const webpack = require('webpack');
+const {
+  genScssOptions,
+  genHtmlOptions,
+  getViteEnvVarDefine,
+} = require('./config');
 
 const indexPath = path.resolve(__dirname, './index.html');
 const tmpDir = path.resolve(__dirname, 'node_modules/.tmp/build');
 mkdirSyncRecursive(tmpDir);
+
+// vite import.meta.env => webpack process.env
+const rawEditLoaderOptions = () => ({
+  pathReg: 'src',
+  replaceReg: 'import.meta.env.',
+  replacement: 'process.env.',
+});
 
 module.exports = {
   publicPath: './',
@@ -22,40 +34,59 @@ module.exports = {
       'vue-router': 'VueRouter',
       'element-ui': 'ELEMENT',
     });
-    config.plugin('html').tap(args => {
-      const htmlOptions = genHtmlOptions();
-      const htmlStr = readFileSync(indexPath).toString();
-      const tmpHtmlPath = path.resolve(tmpDir, './index.html');
+    config
+      .plugin('html')
+      .tap(args => {
+        const htmlOptions = genHtmlOptions();
+        const htmlStr = readFileSync(indexPath).toString();
+        const tmpHtmlPath = path.resolve(tmpDir, './index.html');
 
-      writeFileSync(tmpHtmlPath, htmlStr);
+        writeFileSync(tmpHtmlPath, htmlStr);
 
-      args[0].template = tmpHtmlPath;
-      args[0].title = htmlOptions.title;
+        args[0].template = tmpHtmlPath;
+        args[0].title = htmlOptions.title;
 
-      args[0].filename = './index.html';
-      args[0].templateParameters = (
-        compilation,
-        assets,
-        assetTags,
-        options
-      ) => {
-        return {
+        args[0].filename = './index.html';
+        args[0].templateParameters = (
           compilation,
-          webpackConfig: compilation.options,
-          htmlWebpackPlugin: {
-            tags: assetTags,
-            files: assets,
-            options,
-          },
-          ...htmlOptions,
+          assets,
+          assetTags,
+          options
+        ) => {
+          return {
+            compilation,
+            webpackConfig: compilation.options,
+            htmlWebpackPlugin: {
+              tags: assetTags,
+              files: assets,
+              options,
+            },
+            ...htmlOptions,
+          };
         };
-      };
-      console.log(args);
-      return args;
-    });
+        console.log(args);
+        return args;
+      })
+      .end();
+  },
+  configureWebpack: {
+    module: {
+      rules: [
+        {
+          test: /\.js$/,
+          use: [
+            {
+              loader: 'raw-edit-loader',
+              options: rawEditLoaderOptions(),
+            },
+          ],
+        },
+      ],
+    },
+    plugins: [new webpack.DefinePlugin(getViteEnvVarDefine())],
   },
 };
-
+console.log(getViteEnvVarDefine());
 /**
  * 创建文件夹
  * @param {String} pathStr 文件夹路径
