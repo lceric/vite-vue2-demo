@@ -86,7 +86,7 @@ module.exports = {
     plugins: [new webpack.DefinePlugin(getViteEnvVarDefine())],
   },
 };
-console.log(getViteEnvVarDefine());
+
 /**
  * 创建文件夹
  * @param {String} pathStr 文件夹路径
