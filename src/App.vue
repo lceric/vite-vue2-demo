@@ -11,10 +11,11 @@
 <script>
 export default {
   created() {
-    console.log(window.axios)
-    this.$api.get('/index.js')
-  }
-}
+    console.log(window.axios);
+    console.log(import.meta.env.VITE_APP_URL);
+    this.$api.get(import.meta.env.VITE_APP_URL + 'index.js');
+  },
+};
 </script>
 <style lang="scss">
 #app {
