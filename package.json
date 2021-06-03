@@ -27,7 +27,7 @@
     "raw-edit-loader": "^0.2.0",
     "sass": "^1.32.8",
     "sass-loader": "^8.0.2",
-    "vite": "^2.0.1",
+    "vite": "^2.3.6",
     "vite-plugin-html": "^2.0.2",
     "vite-plugin-resolve-externals": "^0.1.0",
     "vite-plugin-vue2": "^1.2.1",
