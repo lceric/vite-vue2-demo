@@ -32,7 +32,7 @@ exports.getViteEnvVarDefine = function() {
   const { parsed: envParsed } = dotenvExpand(envResult);
 
   const viteEnvDefine = {};
-  Object.keys(envParsed).reduce((pre, cur) => {
+  Object.keys(envParsed || {}).reduce((pre, cur) => {
     pre[`process.env.${cur}`] = JSON.stringify(envParsed[cur]);
     return pre;
   }, viteEnvDefine);
