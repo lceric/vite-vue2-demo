@@ -31,6 +31,6 @@
     "vite-plugin-html": "^2.0.2",
     "vite-plugin-resolve-externals": "^0.1.0",
     "vite-plugin-vue2": "^1.2.1",
-    "vue-template-compiler": "^2.6.11"
+    "vue-template-compiler": "2.6.10"
   }
 }
